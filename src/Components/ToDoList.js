@@ -1,36 +1,42 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 
 const ToDoList = () => {
-    const [counter, setCounter] = useState(1);
-    const incrementCounter = () => {
-        setLogs([{old:counter, new:counter+1}]);
-        setCounter(counter + 1);
-    }
-    const defaultLog = [
-        {
-            old: 1,
-            new: 2,
-        },
-        {
-            old: 2,
-            new: 3,
-        }
-    ]
-    const [logs, setLogs] = useState([]);
-    return (
-        <div>
-            <center>This is my TodoList</center>
-            <button onClick={incrementCounter}>Click me</button>
-            <h3>counter is : {counter}</h3>
-            <ul>
-                {
-                    logs.map((log, index) => {
-                        return <li>{index + 1}. old: {log.old} new: {log.new}</li>
-                    })
-                }
-            </ul>
-        </div>
-    )
-}
+  const defaultLog = [
+    {
+      old: 0,
+      new: 1,
+    },
+  ];
 
-export default ToDoList
+  const [counter, setCounter] = useState(1);
+  const [logs, setLogs] = useState(defaultLog);
+
+  const incrementCounter = () => {
+    setLogs((preLogs) => [...preLogs, { old: counter, new: counter + 1 }]);
+    setCounter(counter + 1);
+  };
+
+  useEffect(() => {
+    console.log("Mount");
+    return () => {
+        console.log("Unmount");
+    }
+  }, []);
+
+  return (
+    <div>
+      <center>This is my TodoList</center>
+      <button onClick={incrementCounter}>Click me</button>
+      <h3>counter is : {counter}</h3>
+      <ul>
+        {logs.map((log, index) => (
+          <li key={index}>
+            {index + 1}. old: {log.old} new: {log.new}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ToDoList;
