@@ -12,7 +12,11 @@ const ToDoList = () => {
   const [logs, setLogs] = useState(defaultLog);
 
   const incrementCounter = () => {
-    setLogs((preLogs) => [...preLogs, { old: counter, new: counter + 1 }]);
+    let newObj = {
+      old: counter,
+      new: counter + 1
+    }
+    setLogs((preLogs) => [ ...preLogs, newObj ])
     setCounter(counter + 1);
   };
 
