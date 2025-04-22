@@ -1,45 +1,59 @@
-import React, { useEffect, useState } from "react";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
 
 const ToDoList = () => {
-  const defaultLog = [
-    {
-      old: 0,
-      new: 1,
-    },
-  ];
 
-  const [counter, setCounter] = useState(1);
-  const [logs, setLogs] = useState(defaultLog);
+  const [taskList, setTaskList] = useState([]);
+  const [task, setTask] = useState("");
+  const [taskError, setTaskError] = useState("");
 
-  const incrementCounter = () => {
-    let newObj = {
-      old: counter,
-      new: counter + 1
+  const handleTaskChange = (value) => {
+    if (value?.trim()) {
+      setTaskError("");
     }
-    setLogs((preLogs) => [ ...preLogs, newObj ])
-    setCounter(counter + 1);
+    setTask(value);
   };
 
-  useEffect(() => {
-    console.log("Mount");
-    return () => {
-        console.log("Unmount");
+  const handleAddTask = () => {
+    if (!task?.trim()) {
+      setTaskError("Enter valid task");
+      return;
     }
-  }, []);
+    setTaskList((preData) => ([ ...preData, task ]));
+    setTask("");
+  };
 
   return (
-    <div>
-      <center>This is my TodoList</center>
-      <button onClick={incrementCounter}>Click me</button>
-      <h3>counter is : {counter}</h3>
-      <ul>
-        {logs.map((log, index) => (
-          <li key={index}>
-            {index + 1}. old: {log.old} new: {log.new}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Box>
+      <Typography m={4} variant="h4">
+        <center>This is my TodoList</center>
+      </Typography>
+      <Typography component="center">
+        <Box width={"60vw"}>
+          <Box
+            p={2}
+            gap={4}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <TextField value={task} onChange={(e) => handleTaskChange(e.target.value)} variant="outlined" placeholder="Enter your task" error={taskError} helperText={taskError} />
+            <Button variant="outlined" color="primary" onClick={handleAddTask} disabled={!task?.trim()}>
+              Add
+            </Button>
+          </Box>
+          <Box p={2}>
+            <Stack direction={"column"} rowGap={4}>
+              {taskList.map((task, index) => (
+                <Stack key={index} border={1} borderRadius={6} display="block">
+                  <Typography fontSize={22} justifyContent={"start"}>{task}</Typography>
+                </Stack>
+              ))}
+            </Stack>
+          </Box>
+        </Box>
+      </Typography>
+    </Box>
   );
 };
 
