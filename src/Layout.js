@@ -1,6 +1,8 @@
+import "./assets/toDoList/toDoList.css"
+
 const Layout = (props) => {
     return (
-        <>
+        <div className="mainPage">
         <header>
             <center>This is Header</center>
         </header>
@@ -8,7 +10,7 @@ const Layout = (props) => {
         <footer>
             <center>This is Foooter</center>
         </footer>
-        </>
+        </div>
         
     )
 }
